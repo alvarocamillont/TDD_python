@@ -9,6 +9,10 @@ name = "pypi"
 
 django = "*"
 selenium = "*"
+pytest = "*"
+pyflakes = "*"
+"flake8" = "*"
+yapf = "*"
 
 
 [dev-packages]

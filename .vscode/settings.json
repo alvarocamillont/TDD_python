@@ -1,0 +1,23 @@
+{
+	
+	"editor.tabSize": 4,
+	"editor.insertSpaces": true,
+	"python.linting.enabled": true,
+	"python.formatting.provider": "yapf",
+	"python.linting.flake8Enabled": true,
+	"python.linting.pylintEnabled": false,
+	"python.unitTest.unittestArgs": [
+			"-v",
+			"-s",
+			".\\test",
+			"-p",
+			"test_*.py"
+	],
+	"python.unitTest.unittestEnabled": false,
+	"python.autoComplete.preloadModules": [
+	"django"
+],
+"python.unitTest.pyTestEnabled": true,
+"python.pythonPath": "/home/alvaro/.virtualenvs/TDD_python-UWjYpmkF/bin/python3",
+
+}
