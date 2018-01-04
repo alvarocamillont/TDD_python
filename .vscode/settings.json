@@ -6,18 +6,10 @@
 	"python.formatting.provider": "yapf",
 	"python.linting.flake8Enabled": true,
 	"python.linting.pylintEnabled": false,
-	"python.unitTest.unittestArgs": [
-			"-v",
-			"-s",
-			".\\test",
-			"-p",
-			"test_*.py"
-	],
 	"python.unitTest.unittestEnabled": true,
 	"python.autoComplete.preloadModules": [
 	"django"
 ],
-"python.unitTest.pyTestEnabled": false,
 "python.pythonPath": "/home/alvaro/.virtualenvs/TDD_python-UWjYpmkF/bin/python3",
 
 }
