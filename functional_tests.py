@@ -21,12 +21,12 @@ class NewVisitorTest(unittest.TestCase):
         # Ele percebe que o título da página e o cabeçalho mencionam lista de tarefas (to-do)
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('To-Do', header_text)
+        self.assertIn('Sua Lista', header_text)
 
         # Ele é convidado a inserir um item de tarefa
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
-            inputbox.get_attribute('placeholde'),
+            inputbox.get_attribute('placeholder'),
             'Entre um item na sua lista'
         )
         # Ele digita "Comprar penas de pavão" em uma caixa de texto
@@ -40,7 +40,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Comprar penas de pavão' for row in rows)
+            any(row.text == '1: Comprar penas de pavão' for row in rows),
+            "Novo item não apareceu na Lista"
         )
 
         # Ainda há uma caixa de texto e ele acrescenta "Fazer isca de pesca"
