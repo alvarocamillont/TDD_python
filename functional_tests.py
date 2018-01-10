@@ -39,19 +39,22 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Comprar penas de pavão' for row in rows),
-            f'Novo item não aparece na tabela. Conteúdo era:\n{table.text}'
-        )
+        self.assertIn('1: Comprar penas de pavão', [row.text for row in rows])
 
         # Ainda há uma caixa de texto e ele acrescenta "Fazer isca de pesca"
-        self.fail("Teste Encerrado!")
-
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Fazer isca de pesca')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
         #  A página é atualizada novamente e agora mostra dois itens na lista
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Comprar penas de pavão', [row.text for row in rows])
+        self.assertIn('2: Fazer isca de pesca', [row.text for row in rows])
 
         # João se pergunta se o site irá lembrar dessa lista. Então ele percebe que o site gerou um
         # url único para ele - há um texto explicando isso
-
+        self.fail("Teste Encerrado!")
         # Ele acessa a url e verifica que sua lista continua lá
 
         # Satisfeito ele vai durmir
