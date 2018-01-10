@@ -41,7 +41,7 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
             any(row.text == '1: Comprar penas de pavão' for row in rows),
-            "Novo item não apareceu na Lista"
+            f'Novo item não aparece na tabela. Conteúdo era:\n{table.text}'
         )
 
         # Ainda há uma caixa de texto e ele acrescenta "Fazer isca de pesca"
