@@ -56,7 +56,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # João se pergunta se o site irá lembrar dessa lista. Então ele percebe que o site gerou um
         # url único para ele - há um texto explicando isso
-        self.fail("Teste Encerrado!")
+        self.fail("Teste Encerrado!") #Final cap 5
         # Ele acessa a url e verifica que sua lista continua lá
 
         # Satisfeito ele vai durmir
