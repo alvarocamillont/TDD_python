@@ -29,7 +29,7 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-    def test_can_start_a_list_and_retrieve_it_later(self):
+    def test_can_start_a_list_for_one_user(self):
         # João ouviu falar de uma nova aplicação online para lista de tarefas
         # Ele decide entra na homepage
         self.browser.get(self.live_server_url)
@@ -67,7 +67,44 @@ class NewVisitorTest(LiveServerTestCase):
 
         # João se pergunta se o site irá lembrar dessa lista. Então ele percebe que o site gerou um
         # url único para ele - há um texto explicando isso
-        self.fail("Teste Encerrado!")  # Final cap 5
-        # Ele acessa a url e verifica que sua lista continua lá
-
+        
         # Satisfeito ele vai durmir
+
+    def test_multiple_users_can_start_lists_at_differnt_url(self):
+        # Edith inicia uma nova lista de tarefas
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Comprar penas de pavão')
+        inputbox.send_keys(Keys.ENTER)
+
+        # Ela percebe que sua lista tem um URL ùnico
+        edith_list_url = self.browser.current_url
+        self.assertRegex(edith_list_url, '/lists/.+')
+
+        ## Agora um novo usuario Francis, chega ao site
+        ## Usamos uma nova sessão do navegardor para garantir que nenhuma informação está vindo de coockie e etc.
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+        
+        # Francis acessa a página inicial, Não há nenhumsina da lista da Edith
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_elements_by_tag_name('body').text
+        self.assertNotIn('Comprar penas de pavão', page_text)
+        self.assertNotIn('Fazer isca de pesca', page_text)
+
+        # Francis começa uma lista nova
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Comprar leite')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Comprar leite')
+
+        # Francis obtem o proprio url exclusivo
+        francis_list_url = self.browser.current_url
+        self.assertRegex(francis_list_url, '/lists/.+')
+        self.assertNotEqual(francis_list_url, edith_list_url)
+
+        # Novamente não há sinal da lista da edith
+        page_text = self.browser.find_elements_by_tag_name('body').text
+        self.assertNotIn('Comprar penas de pavão', page_text)
+        self.assertIn('Comprar leite', page_text)
+
