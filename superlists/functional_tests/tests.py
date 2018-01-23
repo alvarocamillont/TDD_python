@@ -35,7 +35,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         # Ele percebe que o título da página e o cabeçalho mencionam lista de tarefas (to-do)
-        self.assertIn('To-Do', self.browser.title)
+        self.assertIn('Comece uma nova lista', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Sua Lista', header_text)
 
@@ -76,6 +76,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Comprar penas de pavão')
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # Ela percebe que sua lista tem um URL ùnico
         edith_list_url = self.browser.current_url
@@ -88,7 +89,7 @@ class NewVisitorTest(LiveServerTestCase):
         
         # Francis acessa a página inicial, Não há nenhumsina da lista da Edith
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Comprar penas de pavão', page_text)
         self.assertNotIn('Fazer isca de pesca', page_text)
 
