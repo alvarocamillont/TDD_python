@@ -13,6 +13,7 @@ pytest = "*"
 pyflakes = "*"
 "flake8" = "*"
 yapf = "*"
+pylint = "*"
 
 
 [dev-packages]
