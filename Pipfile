@@ -8,13 +8,12 @@ name = "pypi"
 [packages]
 
 django = "*"
+
+
+[dev-packages]
 selenium = "*"
 pytest = "*"
 pyflakes = "*"
 "flake8" = "*"
 yapf = "*"
 pylint = "*"
-
-
-[dev-packages]
-
