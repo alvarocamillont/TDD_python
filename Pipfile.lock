@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "123375690f2c25d01879aa83aa72261da3134fe61984c728e3eb996dac357c12"
+            "sha256": "059216cbd01669916c41d7c683c016d9c052daf93e32d7aaa95c51ad8f87a748"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -33,6 +33,13 @@
                 "sha256:dc3b61d054f1bced64628c62025d480f655303aea9f408e5996c339a543b45f0"
             ],
             "version": "==2.0.2"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:75af03c99389535f218cc596c7de74df4763803f7b63eb09d77e92b3956b36c6",
+                "sha256:eee1169f0ca667be05db3351a0960765620dad53f53434262ff8901b68a1b622"
+            ],
+            "version": "==19.7.1"
         },
         "pytz": {
             "hashes": [
@@ -73,11 +80,11 @@
         },
         "isort": {
             "hashes": [
-                "sha256:d3faf77a0a39bd402f1aea97463bc0eeb36c48a7c4695b0ed56b542195e49c49",
-                "sha256:fd8ea1acf80ae343eb8e2dec17bfe9b78e231a43ea6d0744da6758be1b373553",
-                "sha256:b8b584d1223204a4948ba20d605d3e5421c5956455d8618feb5c2ccdae2b78ba"
+                "sha256:75e94757591197eb0afeb1f3b54f6517c1a26fecaeab2b373885739f63de3e66",
+                "sha256:77502c541ad5c40a158932498bf6177bb663d8a2662b50f02a59b906419ba699",
+                "sha256:34929af733faadf884da29d83e7df1884363b3cc647a48e000b3c5cc13d17549"
             ],
-            "version": "==4.3.1"
+            "version": "==4.3.3"
         },
         "lazy-object-proxy": {
             "hashes": [
@@ -163,10 +170,10 @@
         },
         "selenium": {
             "hashes": [
-                "sha256:5acb9cdbc2d1a7fbb3e16a8ce9246211cc371f0367ad9c6bc2273cca60a6b045",
-                "sha256:9abd2dbd4a5e9b778483ce7e5adf1ea9364fcbc29da488e979213c825a1515d3"
+                "sha256:b0a06afa31a80d7dcb627eafb62776488b20bdaffcd807ac4158fadbc11061f4",
+                "sha256:a34a833d89bcfb463bfba5e5515a9276bb94221787b409f0ad28d2f91903e31d"
             ],
-            "version": "==3.8.1"
+            "version": "==3.9.0"
         },
         "six": {
             "hashes": [

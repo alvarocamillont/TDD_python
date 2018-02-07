@@ -8,9 +8,11 @@ name = "pypi"
 [packages]
 
 django = "*"
+gunicorn = "*"
 
 
 [dev-packages]
+
 selenium = "*"
 pytest = "*"
 pyflakes = "*"
