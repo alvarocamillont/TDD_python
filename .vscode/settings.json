@@ -10,6 +10,6 @@
 	"python.autoComplete.preloadModules": [
 	"django"
 ],
-"python.pythonPath": "/home/alvaro/.virtualenvs/TDD_python-UWjYpmkF/bin/python3",
+"python.pythonPath": "${workspaceFolder}/.venv/bin/python3",
 
 }
