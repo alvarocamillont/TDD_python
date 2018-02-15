@@ -1,9 +1,20 @@
 from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run
 import random
+import boto
+import urllib2
+import os
+import sys
 
 REPO_URL = 'https://github.com/alvarocneto/TDD_python.git'
+REGION = os.environ.get("AWS_EC2_REGION")
+WEB_ROOT = "/var/www"
 
+# Server user, normally AWS Ubuntu instances have default user "ubuntu"
+env.user = "ubuntu"
+
+# List of AWS private key Files
+env.key_filename = ["~/.ssh/TDD-Python.pem"]
 
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
@@ -54,7 +65,7 @@ def _update_virtualenv(source_folder):
 
 def _update_static_files(source_folder):
     run(
-        f'cd {source_folder} &&' 
+        f'cd {source_folder} &&'
         '../.venv/bin/python manage.py collectstatic --noinput'
     )
 
