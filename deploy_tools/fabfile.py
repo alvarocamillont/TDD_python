@@ -1,20 +1,20 @@
-from fabric.contrib.files import append, exists, sed
-from fabric.api import env, local, run
-import random
-import boto
-import urllib2
 import os
-import sys
+import random
+
+from boto.ec2 import connect_to_region
+from fabric.api import env, local, run
+from fabric.contrib.files import append, exists, sed
 
 REPO_URL = 'https://github.com/alvarocneto/TDD_python.git'
 REGION = os.environ.get("AWS_EC2_REGION")
-WEB_ROOT = "/var/www"
+
 
 # Server user, normally AWS Ubuntu instances have default user "ubuntu"
 env.user = "ubuntu"
 
 # List of AWS private key Files
 env.key_filename = ["~/.ssh/TDD-Python.pem"]
+
 
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
@@ -75,3 +75,35 @@ def _update_database(source_folder):
         f'cd {source_folder} &&' 
         '../.venv/bin/python manage.py migrate --noinput'
     )
+
+
+# Fabric task to set env.hosts based on tag key-value pair
+def set_hosts(tag="phpapp", value="*", region=REGION):
+    key = "tag:"+tag
+    env.hosts = _get_public_dns(region, key, value)
+
+
+# Private method to get public DNS name for instance with given tag key and value pair
+def _get_public_dns(region, key, value="*"):
+    public_dns = []
+    connection = _create_connection(region)
+    reservations = connection.get_all_instances(filters={key: value})
+    for reservation in reservations:
+        for instance in reservation.instances:
+            print("Instance", instance.public_dns_name)
+            public_dns.append(str(instance.public_dns_name))
+    return public_dns
+
+
+# Private method for getting AWS connection
+def _create_connection(region):
+    print("Connecting to ", region)
+
+    connection = connect_to_region(
+        region_name=region,
+        aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
+        aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY")
+    )
+
+    print("Connection with AWS established")
+    return connection
