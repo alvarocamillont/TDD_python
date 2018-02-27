@@ -5,12 +5,12 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
+from unittest import skip
 
 MAX_WAIT = 10
 
 
-class NewVisitorTest(StaticLiveServerTestCase):
-
+class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         staging_server = os.environ.get('STAGING_SERVER')
@@ -32,6 +32,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
                 if time.time() - start_time > MAX_WAIT:
                     raise e
                 time.sleep(0.5)
+
+
+class NewVisitorTest(FunctionalTest):
 
     def test_can_start_a_list_for_one_user(self):
         # João ouviu falar de uma nova aplicação online para lista de tarefas
@@ -71,7 +74,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # João se pergunta se o site irá lembrar dessa lista. Então ele percebe que o site gerou um
         # url único para ele - há um texto explicando isso
-        
+
         # Satisfeito ele vai durmir
 
     def test_multiple_users_can_start_lists_at_differnt_url(self):
@@ -86,11 +89,11 @@ class NewVisitorTest(StaticLiveServerTestCase):
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
 
-        ## Agora um novo usuario Francis, chega ao site
-        ## Usamos uma nova sessão do navegardor para garantir que nenhuma informação está vindo de coockie e etc.
+        # Agora um novo usuario Francis, chega ao site
+        # Usamos uma nova sessão do navegardor para garantir que nenhuma informação está vindo de coockie e etc.
         self.browser.quit()
         self.browser = webdriver.Firefox()
-        
+
         # Francis acessa a página inicial, Não há nenhumsina da lista da Edith
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -113,6 +116,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertNotIn('Comprar penas de pavão', page_text)
         self.assertIn('Comprar leite', page_text)
 
+
+class LayoutAndStylingTest(FunctionalTest):
+
     def test_layout_and_styling(self):
         # Edith acessa a página inicial
         self.browser.get(self.live_server_url)
@@ -131,3 +137,22 @@ class NewVisitorTest(StaticLiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
+
+
+class ItemValidationTest(FunctionalTest):
+    @skip
+    def test_cannot_add_empty_list_items(self):
+        # Edith acessa a pagina principal e acidentalmente tenta submeter
+        # um item vazio na lista. Ela tecla ENter na caixa de entrada vazia
+
+        # A página inicial é atualizada e há uma mensagem de erro informando
+        # que itens da lista não podem estar em branco
+
+        # ELa tenta novamente com um texto para o item, e isso agora funciona
+
+        # De forma perversa, ela agora decide submeter um segundo item em branco na lista
+
+        # Ela recebe um aviso semelhante na página da lista
+
+        # E ela pode corrigir isso preenchendo o item com um texto
+        self.fail('Me escreva!')
