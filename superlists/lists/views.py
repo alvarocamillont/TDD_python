@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
-from lists.models import Item, List
 from django.core.exceptions import ValidationError
+from django.shortcuts import redirect, render
+
+from lists.models import Item, List
 
 
 # Create your views here.
@@ -12,8 +13,11 @@ def home_page(request):
     return render(request, 'home.html', {'items': items})
 
 
-def view_list(request, list_Id):
-    list_ = List.objects.get(id=list_Id)
+def view_list(request, list_id):
+    list_ = List.objects.get(id=list_id)
+    if request.method == 'POST':
+        Item.objects.create(text=request.POST['item_text'], list=list_)
+        return redirect(f'/lists/{list_.id}/')
     return render(request, 'list.html', {'list': list_})
 
 
@@ -27,10 +31,4 @@ def new_list(request):
         error = 'Você não pode adicionar um item vazio'
         return render(request, 'home.html', {"error": error})
 
-    return redirect(f'/lists/{list_.id}/')
-
-
-def add_items(request, list_Id):
-    list_ = List.objects.get(id=list_Id)
-    Item.objects.create(text=request.POST['item_text'], list=list_)
     return redirect(f'/lists/{list_.id}/')
