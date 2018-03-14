@@ -21,7 +21,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('Sua Lista', header_text)
 
         # Ele é convidado a inserir um item de tarefa
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Entre com um item na lista'
@@ -37,7 +37,7 @@ class NewVisitorTest(FunctionalTest):
         self.wait_for_row_in_list_table('1: Comprar penas de pavão')
 
         # Ainda há uma caixa de texto e ele acrescenta "Fazer isca de pesca"
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Fazer isca de pesca')
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
@@ -55,7 +55,7 @@ class NewVisitorTest(FunctionalTest):
     def test_multiple_users_can_start_lists_at_differnt_url(self):
         # Edith inicia uma nova lista de tarefas
         self.browser.get(self.live_server_url)
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Comprar penas de pavão')
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
@@ -77,7 +77,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotIn('Fazer isca de pesca', page_text)
 
         # Francis começa uma lista nova
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Comprar leite')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Comprar leite')
