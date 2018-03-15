@@ -10,7 +10,7 @@
 	"python.autoComplete.preloadModules": [
 	"django"
 ],
-"python.pythonPath": "${workspaceFolder}/.venv/bin/python3",
+"python.pythonPath": "${workspaceFolder}/.venv/bin/python",
 "python.unitTest.promptToConfigure": false,
 "python.unitTest.pyTestEnabled": false,
 "python.unitTest.nosetestsEnabled": false,
