@@ -1,3 +1,5 @@
+from unittest import skip
+
 from django.test import TestCase
 from django.utils.html import escape
 
@@ -128,3 +130,18 @@ class ListViewTest(TestCase):
     def test_for_invalid_input_shows_errors_on_page(self):
         response = self.post_invalid_input()
         self.assertContains(response, escape(EMPTY_ITEM_ERROR))
+
+    @skip
+    def test_duplicate_item_validation_errors_end_up_on_lists_paget(self):
+        list1 = List.objects.create()
+        item1 = Item.objects.create(list=list1, text='textkey')
+
+        response = self.client.post(
+            f'/lists/{list1.id}/',
+            data={'text': 'textkey'}
+        )
+
+        expected_error = escape("Você já inseriu esse item na sua lista.")
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'list.html')
+        self.assertEqual(Item.objects.all().count(), 1)
