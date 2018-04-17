@@ -123,6 +123,7 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static'))
 
 
 # Configurações de email
+"""
 EMAIL_HOST = 'smtp.gmail.com' 
 EMAIL_HOST_USER = 'frametotvsdrive@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
@@ -133,7 +134,7 @@ AUTH_USER_MODEL = 'accounts.ListUser'
 AUTHENTICATION_BACKENDS = [
     'accounts.authentication.PasswordLessAuthenticationBackend'
 ]
-
+"""
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
