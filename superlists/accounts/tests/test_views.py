@@ -1,5 +1,5 @@
 from django.test import TestCase
-import accounts.views
+from unittest.mock import patch
 
 
 class SendLoginEmailViewTest(TestCase):
@@ -9,23 +9,14 @@ class SendLoginEmailViewTest(TestCase):
         })
         self.assertRedirects(response, '/')
 
-    def test_send_mail_to_adress_from_post(self):
-        self.send_mail_called = False
-
-        def fake_send_mail(subject, body, from_email, to_list):
-            self.send_mail_called = True
-            self.subject = subject
-            self.body = body
-            self.from_email = from_email
-            self.to_list = to_list
-
-        accounts.views.send_mail = fake_send_mail
-
+    @patch('accounts.views.send_mail')
+    def test_send_mail_to_adress_from_post(self, mock_send_email):
         self.client.post('/accounts/send_login_email', data={
             'email': 'edith@example.com'
         })
 
-        self.assertTrue(self.send_mail_called)
-        self.assertEqual(self.subject, 'Seu login para a superlista')
-        self.assertEqual(self.from_email, 'noreply@superlists')
-        self.assertEqual(self.to_list, ['edith@example.com'])
+        self.assertEqual(mock_send_email.called, True)
+        (subject, body, from_email, to_list), kwargs = mock_send_email.call_args
+        self.assertEqual(subject, 'Seu login para a superlista')
+        self.assertEqual(from_email, 'noreply@superlists')
+        self.assertEqual(to_list, ['edith@example.com'])
