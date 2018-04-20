@@ -20,3 +20,13 @@ class SendLoginEmailViewTest(TestCase):
         self.assertEqual(subject, 'Seu login para a superlista')
         self.assertEqual(from_email, 'noreply@superlists')
         self.assertEqual(to_list, ['edith@example.com'])
+
+    def test_adds_sucess_message(self):
+        response = self.client.post('/accounts/send_login_email', data={
+            'email': 'edith@example.com'
+        }, follow=True)
+
+        message = list(response.context['messages'])[0]
+
+        self.assertEqual(message.message, 'Verifique seu email, nós mandamos o link para vc acessar a sua lista')
+        self.assertEqual(message.tags, 'success')
