@@ -133,7 +133,7 @@ EMAIL_USE_TLS = True
 
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
-    'accounts.authentication.PasswordLessAuthenticationBackend'
+    'accounts.authentication.PasswordlessAuthenticationBackend'
 ]
 
 LOGGING = {
