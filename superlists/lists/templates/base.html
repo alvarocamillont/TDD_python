@@ -16,7 +16,10 @@
           <a class="navbar-brand" href="/">Superlists </a>
         </div>
         {% if user.email %}
-          <ul class="navbar-form navbar-right">
+          <ul class="nav navbar-form navbar-left">
+            <li><a href="#">Minhas Listas</a></li>
+          </ul>
+          <ul class="nav navbar-form navbar-right">
             <li class="navbar-text">Logado como {{ user.email }}</li>
             <li class="navbar-text"><a href="{% url 'logout' %}">Log Out</a></li>
           </ul>
