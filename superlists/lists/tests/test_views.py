@@ -161,10 +161,9 @@ class MyListsTest(TestCase):
         response = self.client.get('/lists/users/a@b.com')
         self.assertEqual(response.context['owner'], correct_user)
 
-
     def test_list_owner_is_saved_if_user_is_authenticate(self):
         user = User.objects.create(email='a@b.com')
         self.client.force_login(user)
-        self.client.post('/list/new', data={'text': 'new_item'})
+        self.client.post('/lists/new', data={'text': 'new_item'})
         list_ = List.objects.first()
         self.assertEqual(list_.owner, user)
