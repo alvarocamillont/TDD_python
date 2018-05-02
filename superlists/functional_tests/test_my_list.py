@@ -77,5 +77,4 @@ class MyListTest(FunctionalTest):
         # Ela faz logout e a opção My List desparece
         self.browser.find_element_by_link_text('Log Out').click()
         self.wait_for(
-            lambda: self.assertEqual(self.browser.find_element_by_link_text('Minhas Listas'), []))
-            
+            lambda: self.assertEqual(self.browser.find_elements_by_link_text('Minhas Listas'), []))
