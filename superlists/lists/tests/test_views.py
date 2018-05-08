@@ -5,6 +5,10 @@ from lists.forms import (EMPTY_ITEM_ERROR, ItemForm,
                             DUPLICATE_ITEM_ERROR, ExistingListItemForm)
 from lists.models import Item, List
 from django.contrib.auth import get_user_model
+import unittest
+from unittest.mock import patch
+from django.http import HttpRequest
+from lists.views import new_list2
 
 User = get_user_model()
 
@@ -20,7 +24,18 @@ class HomePageTest(TestCase):
         self.assertIsInstance(response.context['form'], ItemForm)
 
 
-class NewListTest(TestCase):
+@patch('lists.views.NewListForm')
+class NewListViewUnitTest(TestCase):
+
+    def setUp(self):
+        self.request = HttpRequest()
+        self.request.POST['text'] = 'Novo item da lista'
+
+    def test_passes_POST_data_to_NewListForm(self, mockNewListForm):
+        new_list2(self.request)
+        mockNewListForm.assert_called_once_with(data=self.request.POST)
+
+class NewListViewIntegratedTest(TestCase):
 
     def test_can_save_a_POST_request(self):
         self.client.post('/lists/new', data={'text': 'A new list item'})
@@ -47,6 +62,13 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'text': ''})
         self.assertIsInstance(response.context['form'], ItemForm)
 
+    @unittest.skip
+    def test_list_owner_is_saved_if_user_is_authenticate(self):
+        user = User.objects.create(email='a@b.com')
+        self.client.force_login(user)
+        self.client.post('/lists/new', data={'text': 'new_item'})
+        list_ = List.objects.first()
+        self.assertEqual(list_.owner, user)
 
 class ListViewTest(TestCase):
 
@@ -161,10 +183,3 @@ class MyListsTest(TestCase):
         response = self.client.get('/lists/users/a@b.com')
         self.assertEqual(response.context['owner'], correct_user)
 
-
-    def test_list_owner_is_saved_if_user_is_authenticate(self):
-        user = User.objects.create(email='a@b.com')
-        self.client.force_login(user)
-        self.client.post('/list/new', data={'text': 'new_item'})
-        list_ = List.objects.first()
-        self.assertEqual(list_.owner, user)
