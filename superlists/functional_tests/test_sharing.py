@@ -52,3 +52,18 @@ class SharingTest(FunctionalTest):
 
         # Ele ve ai a lista de Judite
         self.browser.find_element_by_link_text('Procure ajuda').click()
+
+        # Na página de lista, Pedro pode ver que a lista é de Judite
+        self.wait_for(lambda: self.assertEqual(
+            list_page.get_list_owner(),
+            'judite@exemplo.com'
+        ))
+
+        # Ele adiciona um item na lista
+        list_page.add_list_item('Olá Judite!')
+
+        # Quando Judite atualiza a página, ela vê o acrécimo feito por pedro
+        self.browser = judite_browser
+        self.browser.refresh()
+        list_page.wait_for_row_in_list_table('Olá Judite!', 2)
+        
